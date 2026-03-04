@@ -1,0 +1,49 @@
+{% extends 'agency/base.html' %}
+{% block title %}Register Complaint | Newspaper Agency Bakhtiyarpur{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <div class="text-center mb-4">
+        <span class="card-icon">📋</span>
+        <h2>Register a Complaint</h2>
+        <p class="subtitle">Describe your issue and our team will resolve it within 24 hours.</p>
+    </div>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-person-fill text-primary me-1"></i>Your Name *</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="invalid-feedback d-block">{{ form.name.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-phone-fill text-success me-1"></i>Mobile Number *</label>
+            {{ form.mobile }}
+            {% if form.mobile.errors %}
+                <div class="invalid-feedback d-block">{{ form.mobile.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-chat-square-text-fill text-danger me-1"></i>Issue Details *</label>
+            {{ form.issue }}
+            {% if form.issue.errors %}
+                <div class="invalid-feedback d-block">{{ form.issue.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="alert-info-custom mb-4" style="font-size:.86rem;">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            Our team will review your complaint and contact you on your registered mobile number.
+        </div>
+
+        <button type="submit" class="btn-submit btn mt-2">
+            <i class="bi bi-send-fill me-2"></i> Submit Complaint
+        </button>
+    </form>
+</div>
+{% endblock %}

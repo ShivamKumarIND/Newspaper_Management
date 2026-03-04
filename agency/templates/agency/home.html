@@ -1,0 +1,85 @@
+{% extends 'agency/base.html' %}
+{% block title %}Home | Newspaper Agency Bakhtiyarpur{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="fw-bold" style="font-size:2rem; color:#1a1a2e;">Welcome to <span style="color:#e94560;">Newspaper Agency Bakhtiyarpur</span></h1>
+    <p class="text-muted">Your one-stop platform for all newspaper subscription and agency services.</p>
+</div>
+
+<div class="row g-4 justify-content-center">
+
+    <!-- 1. Start Newspaper -->
+    <div class="col-lg-4 col-md-6">
+        <a href="{% url 'agency:start_newspaper' %}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-4" style="transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:3rem;">🗞️</div>
+                <h5 class="fw-bold mt-2" style="color:#1a1a2e;">Start a Newspaper</h5>
+                <p class="text-muted small">Subscribe to your favourite newspaper and get it delivered daily.</p>
+                <span class="badge rounded-pill px-3 py-2 mt-auto" style="background:#fff0f3;color:#e94560;font-size:.8rem;">Get Started →</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- 2. Close Newspaper -->
+    <div class="col-lg-4 col-md-6">
+        <a href="{% url 'agency:close_newspaper' %}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-4" style="transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:3rem;">📭</div>
+                <h5 class="fw-bold mt-2" style="color:#1a1a2e;">Close a Newspaper</h5>
+                <p class="text-muted small">Stop your current newspaper subscription with ease.</p>
+                <span class="badge rounded-pill px-3 py-2 mt-auto" style="background:#fff0f3;color:#e94560;font-size:.8rem;">Unsubscribe →</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- 3. Payment Details -->
+    <div class="col-lg-4 col-md-6">
+        <a href="{% url 'agency:payment_details' %}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-4" style="transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:3rem;">💳</div>
+                <h5 class="fw-bold mt-2" style="color:#1a1a2e;">Payment Details</h5>
+                <p class="text-muted small">Check your payment status, dues, and billing information.</p>
+                <span class="badge rounded-pill px-3 py-2 mt-auto" style="background:#fff0f3;color:#e94560;font-size:.8rem;">Check Now →</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- 4. Register Complaint -->
+    <div class="col-lg-4 col-md-6">
+        <a href="{% url 'agency:register_complaint' %}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-4" style="transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:3rem;">📋</div>
+                <h5 class="fw-bold mt-2" style="color:#1a1a2e;">Register a Complaint</h5>
+                <p class="text-muted small">Facing any issue? Register your complaint and we'll fix it.</p>
+                <span class="badge rounded-pill px-3 py-2 mt-auto" style="background:#fff0f3;color:#e94560;font-size:.8rem;">Report Issue →</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- 5. Join as Distributor -->
+    <div class="col-lg-4 col-md-6">
+        <a href="{% url 'agency:join_distributor' %}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-4" style="transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:3rem;">🤝</div>
+                <h5 class="fw-bold mt-2" style="color:#1a1a2e;">Join as Distributor</h5>
+                <p class="text-muted small">Partner with us as a newspaper distributor and earn daily.</p>
+                <span class="badge rounded-pill px-3 py-2 mt-auto" style="background:#fff0f3;color:#e94560;font-size:.8rem;">Apply Now →</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- 6. Sold / Left -->
+    <div class="col-lg-4 col-md-6">
+        <a href="{% url 'agency:newspaper_sold' %}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-4" style="transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                <div style="font-size:3rem;">📊</div>
+                <h5 class="fw-bold mt-2" style="color:#1a1a2e;">Newspaper Sold / Left</h5>
+                <p class="text-muted small">Track daily newspaper sales, remaining stock and net profit.</p>
+                <span class="badge rounded-pill px-3 py-2 mt-auto" style="background:#fff0f3;color:#e94560;font-size:.8rem;">Track Sales →</span>
+            </div>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'agency/base.html' %}
+{% block title %}Start Newspaper | Newspaper Agency Bakhtiyarpur{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <div class="text-center mb-4">
+        <span class="card-icon">🗞️</span>
+        <h2>Start a Newspaper</h2>
+        <p class="subtitle">Fill in the details below to begin your daily newspaper subscription.</p>
+    </div>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label class="form-label">Select Newspaper *</label>
+            {{ form.newspaper }}
+            {% if form.newspaper.errors %}
+                <div class="invalid-feedback d-block">{{ form.newspaper.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Delivery Location *</label>
+            {{ form.location }}
+            {% if form.location.errors %}
+                <div class="invalid-feedback d-block">{{ form.location.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-person-fill text-primary me-1"></i>Your Name *</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="invalid-feedback d-block">{{ form.name.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-phone-fill text-success me-1"></i>Mobile Number *</label>
+            {{ form.mobile }}
+            {% if form.mobile.errors %}
+                <div class="invalid-feedback d-block">{{ form.mobile.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn-submit btn mt-2">
+            <i class="bi bi-check-circle-fill me-2"></i> Start My Subscription
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'agency/base.html' %}
+{% block title %}Payment Details | Newspaper Agency Bakhtiyarpur{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <div class="text-center mb-4">
+        <span class="card-icon">💳</span>
+        <h2>Payment Details</h2>
+        <p class="subtitle">Enter your name and mobile number to check your payment status.</p>
+    </div>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-person-fill text-primary me-1"></i>Your Name *</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="invalid-feedback d-block">{{ form.name.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-phone-fill text-success me-1"></i>Mobile Number *</label>
+            {{ form.mobile }}
+            {% if form.mobile.errors %}
+                <div class="invalid-feedback d-block">{{ form.mobile.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn-submit btn mt-2">
+            <i class="bi bi-search me-2"></i> Check Payment Status
+        </button>
+    </form>
+
+    <!-- ─── Results ─── -->
+    {% if searched %}
+        <hr class="my-4">
+
+        {% if not_found %}
+            <div class="alert-danger-custom">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <strong>Record Not Found.</strong> No payment record was found for the given name and mobile number. Please contact the agency.
+            </div>
+
+        {% elif payment_record %}
+
+            {% with paid_till=payment_record.months_paid_till %}
+                {% if paid_till >= today %}
+                    <!-- Fully paid -->
+                    <div class="alert-success-custom mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-check-circle-fill fs-4 me-2"></i>
+                            <strong class="fs-5">All Payments Clear!</strong>
+                        </div>
+                        <p class="mb-0">Your payment is up to date.</p>
+                    </div>
+                {% else %}
+                    <!-- Due payment -->
+                    <div class="alert-warning-custom mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-exclamation-circle-fill fs-4 me-2"></i>
+                            <strong class="fs-5">Payment Due!</strong>
+                        </div>
+                        <p class="mb-1">Please pay your outstanding bill within <strong>1 week</strong> to avoid suspension of newspaper delivery.</p>
+                    </div>
+                {% endif %}
+
+                <!-- Payment Info Card -->
+                <div class="rounded-4 border p-4 bg-white shadow-sm">
+                    <h6 class="fw-bold mb-3 text-secondary text-uppercase" style="font-size:.75rem;letter-spacing:1px;">Payment Summary</h6>
+                    <table class="table table-borderless mb-0" style="font-size:.93rem;">
+                        <tbody>
+                            <tr>
+                                <td class="text-muted" style="width:50%;">Subscriber Name</td>
+                                <td class="fw-semibold">{{ payment_record.name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Mobile</td>
+                                <td class="fw-semibold">{{ payment_record.mobile }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Payment Paid Till</td>
+                                <td class="fw-semibold">
+                                    <span class="badge px-3 py-2 rounded-pill
+                                        {% if paid_till >= today %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                        {{ payment_record.months_paid_till|date:"F Y" }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Due Amount</td>
+                                <td class="fw-bold {% if payment_record.due_amount > 0 %}text-danger{% else %}text-success{% endif %} fs-5">
+                                    ₹{{ payment_record.due_amount }}
+                                    {% if payment_record.due_amount == 0 %}
+                                        <i class="bi bi-check-circle-fill text-success ms-1" style="font-size:.9rem;"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Last Updated</td>
+                                <td class="fw-semibold">{{ payment_record.last_updated|date:"d M Y" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    {% if paid_till < today and payment_record.due_amount > 0 %}
+                    <div class="alert-danger-custom mt-3" style="font-size:.88rem;">
+                        <i class="bi bi-bell-fill me-2"></i>
+                        <strong>⚠️ Reminder:</strong> You have a due of <strong>₹{{ payment_record.due_amount }}</strong>.
+                        Please pay within <strong>7 days</strong> or newspaper delivery will be <strong>stopped</strong>.
+                    </div>
+                    {% endif %}
+                </div>
+            {% endwith %}
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends 'agency/base.html' %}
+{% block title %}Newspaper Sold / Left | Newspaper Agency Bakhtiyarpur{% endblock %}
+
+{% block content %}
+<div class="form-card form-card-wide">
+    <div class="text-center mb-4">
+        <span class="card-icon">📊</span>
+        <h2>Newspaper Sold / Left</h2>
+        <p class="subtitle">Track today's newspapers received, distributed, sold, remaining, and net profit.</p>
+    </div>
+
+    <form method="post" novalidate id="soldForm">
+        {% csrf_token %}
+
+        <!-- Row 1: Received, Name, Mobile -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-12">
+                <label class="form-label"><i class="bi bi-box-seam-fill text-primary me-1"></i>Total Newspapers Received Today *</label>
+                {{ form.total_received }}
+                {% if form.total_received.errors %}
+                    <div class="invalid-feedback d-block">{{ form.total_received.errors|join:", " }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label"><i class="bi bi-person-fill text-primary me-1"></i>Your Name *</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="invalid-feedback d-block">{{ form.name.errors|join:", " }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <label class="form-label"><i class="bi bi-phone-fill text-success me-1"></i>Mobile Number *</label>
+                {{ form.mobile }}
+                {% if form.mobile.errors %}
+                    <div class="invalid-feedback d-block">{{ form.mobile.errors|join:", " }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Newspaper Quantities -->
+        <div class="mb-4">
+            <label class="form-label fw-bold"><i class="bi bi-newspaper me-1 text-danger"></i>Newspapers You Are Taking (enter quantity for each)</label>
+            <div class="newspaper-grid">
+                <div class="newspaper-item">
+                    <div class="np-label">📰 Hindustan</div>
+                    {{ form.hindustan_qty }}
+                </div>
+                <div class="newspaper-item">
+                    <div class="np-label">📰 Dainik Jagaran</div>
+                    {{ form.dainik_jagaran_qty }}
+                </div>
+                <div class="newspaper-item">
+                    <div class="np-label">📰 Dainik Bhaskar</div>
+                    {{ form.dainik_bhaskar_qty }}
+                </div>
+                <div class="newspaper-item">
+                    <div class="np-label">📰 Prabhat Khabar</div>
+                    {{ form.prabhat_khabar_qty }}
+                </div>
+                <div class="newspaper-item">
+                    <div class="np-label">📰 AAJ</div>
+                    {{ form.aaj_qty }}
+                </div>
+                <div class="newspaper-item">
+                    <div class="np-label">📰 Times Of India</div>
+                    {{ form.times_of_india_qty }}
+                </div>
+                <div class="newspaper-item">
+                    <div class="np-label">📰 The Hindu</div>
+                    {{ form.the_hindu_qty }}
+                </div>
+                <div class="newspaper-item">
+                    <div class="np-label">📰 Hindustan Times</div>
+                    {{ form.hindustan_times_qty }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Sold -->
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-check2-circle text-success me-1"></i>Total Newspapers Sold Today *</label>
+            {{ form.total_sold }}
+            {% if form.total_sold.errors %}
+                <div class="invalid-feedback d-block">{{ form.total_sold.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="alert-info-custom mb-4" style="font-size:.86rem;">
+            <i class="bi bi-calculator-fill me-2"></i>
+            <strong>Net Profit Formula:</strong> Net Profit = Total Sold × ₹1 per newspaper
+        </div>
+
+        <button type="submit" class="btn-submit btn">
+            <i class="bi bi-calculator-fill me-2"></i> Calculate & Save Report
+        </button>
+    </form>
+
+    <!-- ─── Result ─── -->
+    {% if result %}
+    <hr class="my-4">
+    <h5 class="fw-bold mb-3 text-center" style="color:#1a1a2e;">📊 Today's Sales Report</h5>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="text-center p-3 rounded-4 shadow-sm" style="background:#eff6ff;">
+                <div class="fw-bold fs-4 text-primary">{{ result.record.total_received }}</div>
+                <div class="text-muted small">Received</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="text-center p-3 rounded-4 shadow-sm" style="background:#f0fdf4;">
+                <div class="fw-bold fs-4 text-success">{{ result.record.total_sold }}</div>
+                <div class="text-muted small">Sold</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="text-center p-3 rounded-4 shadow-sm" style="background:#fffbeb;">
+                <div class="fw-bold fs-4 text-warning">{{ result.record.total_remaining }}</div>
+                <div class="text-muted small">Remaining</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="text-center p-3 rounded-4 shadow-sm" style="background:#fff0f3;">
+                <div class="fw-bold fs-4 text-danger">₹{{ result.net_profit }}</div>
+                <div class="text-muted small">Net Profit</div>
+            </div>
+        </div>
+    </div>
+
+    {% if result.newspaper_details %}
+    <div class="mb-3">
+        <h6 class="fw-bold mb-2 text-secondary" style="font-size:.8rem;text-transform:uppercase;letter-spacing:1px;">Newspaper Breakdown (Taken)</h6>
+        <div class="d-flex flex-wrap gap-2">
+            {% for np_name, qty in result.newspaper_details.items %}
+            <span class="badge rounded-pill px-3 py-2" style="background:#1a1a2e;color:#f5a623;font-size:.84rem;">
+                📰 {{ np_name }}: <strong>{{ qty }}</strong>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="alert-success-custom mt-3" style="font-size:.88rem;">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        Report saved successfully for <strong>{{ result.record.name }}</strong>.
+        Net Profit: <strong>₹{{ result.net_profit }}</strong>
+        ({{ result.record.total_sold }} sold × ₹{{ result.profit_per_paper }})
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'agency/base.html' %}
+{% block title %}Close Newspaper | Newspaper Agency Bakhtiyarpur{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <div class="text-center mb-4">
+        <span class="card-icon">📭</span>
+        <h2>Close Newspaper Subscription</h2>
+        <p class="subtitle">We're sorry to see you go. Please fill the details to stop your subscription.</p>
+    </div>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-person-fill text-primary me-1"></i>Your Name *</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="invalid-feedback d-block">{{ form.name.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-phone-fill text-success me-1"></i>Mobile Number *</label>
+            {{ form.mobile }}
+            {% if form.mobile.errors %}
+                <div class="invalid-feedback d-block">{{ form.mobile.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-house-door-fill text-warning me-1"></i>Delivery Address *</label>
+            {{ form.address }}
+            {% if form.address.errors %}
+                <div class="invalid-feedback d-block">{{ form.address.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label"><i class="bi bi-chat-left-text-fill text-danger me-1"></i>Reason for Closing *</label>
+            {{ form.reason }}
+            {% if form.reason.errors %}
+                <div class="invalid-feedback d-block">{{ form.reason.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn-submit btn mt-2">
+            <i class="bi bi-x-circle-fill me-2"></i> Close My Subscription
+        </button>
+    </form>
+</div>
+{% endblock %}
